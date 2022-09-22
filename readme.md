@@ -19,5 +19,3 @@ curl "http://localhost:9000/2015-03-31/functions/function/invocations" -d '{"que
 ```
 
 5. A 200 status response is returned:
-
-![post-oci](../repository-resources/postOCI.png)

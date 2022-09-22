@@ -1,0 +1,42 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  ociphp2
+
+  Sample SAM Template for php oci
+  
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  myPHPLambdaFuncton:
+    Type: AWS::Serverless::Function
+    Properties:
+      PackageType: Image
+      Events:
+        DynamicRequestsRoot:
+          Type: HttpApi
+          Properties:
+            Path: /
+            Method: ANY
+        DynamicRequestsProxy:
+          Type: HttpApi
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+    Metadata:
+      DockerTag: phpoci
+      DockerContext: ./
+      Dockerfile: Dockerfile
+
+Outputs:
+  HelloWorldApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessHttpApi}.execute-api.${AWS::Region}.amazonaws.com/"
+  HelloWorldFunction:
+    Description: "Hello World Lambda Function ARN"
+    Value: !GetAtt myPHPLambdaFuncton.Arn
+  HelloWorldFunctionIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt myPHPLambdaFuncton.Arn
